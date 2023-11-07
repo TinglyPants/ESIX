@@ -2,6 +2,11 @@ const { SlashCommandBuilder } = require('discord.js')
 const axios = require("axios")
 const key = "04e662d46aa7487c9b98762949321982"
 
+function choose(array){
+    let index = Math.floor(Math.random() * array.length)
+    return array[index]
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
     .setName("recipe")
@@ -12,11 +17,14 @@ module.exports = {
             .setDescription('Initial Recipe Query (natural language)')),
     async execute(interaction){
         const query = interaction.options.getString('query')
-        console.log(query)
         try {
             const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${key}`)
-            console.log(response.data)
+            let choice = choose(response.data.results)
+            const recipe = await axios.get(`https://api.spoonacular.com/recipes/${choice.id}/information?apiKey=${key}`)
+            await interaction.reply(`${choice.title}\n${choice.image}\n${recipe.data.sourceUrl}`)
         }
-        catch {}
+        catch (e){
+            await interaction.reply(`Could not find a recipe for ${query}`)
+        }
     }
 }
