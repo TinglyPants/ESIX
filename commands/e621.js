@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { responses } = require('responses.json')
+const { responses } = require('./responses.json')
 
 function choose(array){
     let index = Math.floor(Math.random() * array.length)

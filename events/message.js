@@ -11,7 +11,7 @@ module.exports = {
 	name: Events.MessageCreate,
 	async execute(interaction) {
         let waifuNumRand = Math.floor(Math.random()*10)
-        let recycleNumRand = Math.floor(Math.random()*39)
+        let recycleNumRand = Math.floor(Math.random()*100)
         // James Waifu
 		if (interaction.author.id == coolerJames && waifuNumRand == 1 ){
             const response = await axios.get('https://nekos.life/api/v2/img/neko')
