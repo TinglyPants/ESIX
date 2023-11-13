@@ -13,7 +13,7 @@ module.exports = {
         let waifuNumRand = Math.floor(Math.random()*10)
         let recycleNumRand = Math.floor(Math.random()*100)
         // James Waifu
-		if (interaction.author.id == coolerJames && waifuNumRand == 1 ){
+		if (interaction.author.id == nickNotName && waifuNumRand == 1 ){
             const response = await axios.get('https://nekos.life/api/v2/img/neko')
             const URL = response.data.url
 
