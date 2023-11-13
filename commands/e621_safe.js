@@ -1,11 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { esix_key, esix_name } = require('../config.json')
 const axios = require("axios")
-
-function choose(array){
-    let index = Math.floor(Math.random() * array.length)
-    return array[index]
-}
+const { choose } = require('./utils.js')
 
 module.exports = {
     data: new SlashCommandBuilder()

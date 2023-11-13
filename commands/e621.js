@@ -1,10 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { responses } = require('./responses.json')
-
-function choose(array){
-    let index = Math.floor(Math.random() * array.length)
-    return array[index]
-}
+const { e621_responses } = require('./responses.json')
+const { choose } = require('./utils.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
