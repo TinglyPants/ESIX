@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { e621_responses } = require('./responses.json')
-const { choose } = require('./utils.js')
+const { choose } = require('../utils.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
                 await interaction.reply(`Here you go then...\nhttps://e621.net/posts/${postNum}`)
             }
             else{
-                await interaction.reply(choose(responses))
+                await interaction.reply(choose(e621_responses))
             }
         }
         catch (error){

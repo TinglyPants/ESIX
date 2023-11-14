@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const axios = require("axios")
 const key = "04e662d46aa7487c9b98762949321982"
-const { choose } = require('./utils.js')
+const { choose } = require('../utils.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
