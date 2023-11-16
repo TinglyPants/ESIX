@@ -2,6 +2,7 @@ const fs = require("node:fs")
 const path = require("node:path")
 const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials } = require("discord.js")
 const { token, clientId} = require("./config.json")
+const { log } = require("./log.js")
 
 const client = new Client({ 
     intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "MessageContent", "GuildMessageReactions"], 
@@ -59,8 +60,7 @@ client.on(Events.InteractionCreate, async interaction =>{
 
     try{
         await command.execute(interaction)
-        console.log(interaction.user.globalName)
-        console.log(command.data.name)
+        log(interaction.user.globalName, command.data.name)
     }
     catch (error) {
         console.log(error)

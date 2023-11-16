@@ -1,5 +1,5 @@
 // Adds commands & users to a json file. Makes a new file every day.
-const fs = requre('fs')
+const fs = require('fs')
 const path = require('node:path')
 
 function log(userName, commandName){
@@ -16,14 +16,15 @@ function log(userName, commandName){
 
     // File nameing/finding
     const filename = `${day}-${month}-${year}.txt`
-    const filePath = path.join(__dirname, "log", filename)
+    const filePath = path.join(__dirname, "logs", filename)
 
     // Content Processing
-    const content = `${userName} used: ${commandName}, at: ${processedTime}`
+    const content = `${userName} used: ${commandName}, at: ${processedTime}\n`
 
     fs.appendFile(filePath, content, (err) => {
         if (err) {
-            console.log("[WARNING] There was an error loggin an action!")
+            console.log("[WARNING] There was an error logging an action!")
+            console.log(err)
         }
     })
 }
