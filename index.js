@@ -1,9 +1,11 @@
 const fs = require("node:fs")
 const path = require("node:path")
-const { Client, Events, Collection, InteractionCollector, REST, Routes ,Partials} = require("discord.js")
+const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials } = require("discord.js")
 const { token, clientId} = require("./config.json")
 
-const client = new Client({ intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "MessageContent", "GuildMessageReactions"], partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember] })
+const client = new Client({ 
+    intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "MessageContent", "GuildMessageReactions"], 
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember]})
 
 client.commands = new Collection()
 
@@ -57,6 +59,8 @@ client.on(Events.InteractionCreate, async interaction =>{
 
     try{
         await command.execute(interaction)
+        console.log(interaction.user.globalName)
+        console.log(command.data.name)
     }
     catch (error) {
         console.log(error)
@@ -66,6 +70,9 @@ client.on(Events.InteractionCreate, async interaction =>{
 
 client.once(Events.ClientReady, c =>{
     console.log(`Logged in as: ${c.user.tag}`)
+    c.user.setStatus("idle")
+    // c.user.setUsername("ESIX, destroyer of balls")
+    c.user.setActivity("with 𝒀𝑶𝑼𝑹 balls. Yeah, that's right!")
 })
 
 const eventsPath = path.join(__dirname, 'events');
