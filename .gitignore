@@ -2,4 +2,3 @@ config.json
 responses.json
 node_modules
 logs
-.gitignore
