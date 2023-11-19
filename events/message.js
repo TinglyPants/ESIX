@@ -20,8 +20,8 @@ const a_m_i_n = "547459595300503552"
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(interaction) {
-        let mouseNumRand = Math.floor(Math.random()*58)
-        let furryNumRand = Math.floor(Math.random()*58)
+        let mouseNumRand = Math.floor(Math.random()*200)
+        let furryNumRand = Math.floor(Math.random()*100)
         let recycleNumRand = Math.floor(Math.random()*100)
         // Ryan Mouse
 		if (interaction.author.id == spaghettiOs && mouseNumRand == 2 ){
@@ -35,10 +35,10 @@ module.exports = {
         // Amin Subscription
         if (interaction.author.id == a_m_i_n && furryNumRand == 0){
             // Safe rating, female, limit of 10, random order, score > 50, -comic, images only, solo
-            let tags = ["rating:s","order:random","score:>70","female","-comic","-animated","solo","-esix"]
+            let tags = ["rating:s","order:random","score:>70","female","-comic","-animated","solo","-esix", "bikini"]
             let response = await axios.get(`https://e621.net/posts.json?limit=10&tags=${tags.join("+")}`, {headers: { "Authorization": "Basic " + btoa(`${esix_name}:${esix_key}`), 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36' }})
             let post = choose(response.data.posts).id
-            let message = "*Dear Mr. Davies*,\nThank you for joining the 😳[Furry Women Lovers' Society]😳.\n💖 **Please rememer to give us a ✨[5 STAR]✨ rating!** 💖\n*🥵 Enjoy!~*\n\n"
+            let message = "*Dear Mr. Davies*,\nThank you for joining the 😳[Furry Women Lovers' Society]😳.\n💖 **Please remember to give us a ✨[5 STAR]✨ rating!** 💖\n*🥵 Enjoy!~*\n\n"
             await interaction.reply(`${message}https://e621.net/posts/${post}`)
         }
         // James React

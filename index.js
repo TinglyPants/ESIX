@@ -5,8 +5,8 @@ const { token, clientId} = require("./config.json")
 const { log } = require("./log.js")
 
 const client = new Client({ 
-    intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "MessageContent", "GuildMessageReactions"], 
-    partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember]})
+    intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "GuildMessageReactions", "DirectMessages"], 
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, 'CHANNEL']})
 
 client.commands = new Collection()
 
@@ -73,6 +73,21 @@ client.once(Events.ClientReady, c =>{
     c.user.setStatus("idle")
     // c.user.setUsername("ESIX, destroyer of balls")
     c.user.setActivity("with 𝒀𝑶𝑼𝑹 balls. Yeah, that's right!")
+})
+
+client.on(Events.MessageCreate, c => {
+    if (!c.guildId){
+        //DM
+        console.log(`User: ${c.author.username} sent: ${c.content}`)
+        if (c.author.username == "tinglypants"){
+            try {
+                let content = c.content.split(";")
+                let userToDM = content[0]
+                let contentToSend = content[1]
+                client.users.send(userToDM, contentToSend);
+            } catch {}
+        }
+    }
 })
 
 const eventsPath = path.join(__dirname, 'events');
