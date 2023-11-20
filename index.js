@@ -3,6 +3,8 @@ const path = require("node:path")
 const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials } = require("discord.js")
 const { token, clientId} = require("./config.json")
 const { log } = require("./log.js")
+const { express_init } = require('./express_handler.js')
+const express = require("express")
 
 const client = new Client({ 
     intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "GuildMessageReactions", "DirectMessages"], 
@@ -47,6 +49,8 @@ const rest = new REST().setToken(token);
 })();
 
 // CMNDS
+
+express_init()
 
 client.on(Events.InteractionCreate, async interaction =>{
     if (!interaction.isChatInputCommand){ return }
