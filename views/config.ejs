@@ -1,0 +1,10 @@
+<h1>Editing config.json</h1>
+<form method="post" action="/setconfig">
+    <% for (const key in parsedConfig) { %>
+        <li>
+            <label><%= key %></label>
+            <input type="text" name="<%= key %>" id="<%= key %>" value="<%= parsedConfig[key] %>">
+        </li>
+    <% } %>
+    <button type="submit">Submit!</button>
+</form>
