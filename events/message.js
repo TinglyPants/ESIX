@@ -22,7 +22,7 @@ module.exports = {
 	async execute(interaction) {
         let mouseNumRand = Math.floor(Math.random()*200)
         let furryNumRand = Math.floor(Math.random()*100)
-        let recycleNumRand = Math.floor(Math.random()*100)
+        let recycleNumRand = Math.floor(Math.random()*2)
         // Ryan Mouse
 		if (interaction.author.id == spaghettiOs && mouseNumRand == 2 ){
             const file = path.join(mouseRealFolder, choose(realImages))
