@@ -1,10 +1,12 @@
 const fs = require("node:fs")
 const path = require("node:path")
 const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials } = require("discord.js")
+const { createAudioPlayer, AudioPlayerStatus } = require('@discordjs/voice')
 const { token, clientId} = require("./config.json")
 const { log } = require("./log.js")
 const { express_init } = require('./express_handler.js')
 const express = require("express")
+const { error } = require("node:console")
 
 const client = new Client({ 
     intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "GuildMessageReactions", "DirectMessages"], 
@@ -52,6 +54,19 @@ const rest = new REST().setToken(token);
 
 express_init()
 
+const player = createAudioPlayer()
+
+global.queue = []
+
+player.on(AudioPlayerStatus.Idle, () => {
+    console.log("Idle!")
+    if (global.queue[0]){
+        console.log("Something is in the queue! playing it now.")
+        player.play(global.queue[0])
+        global.queue = global.queue.slice(1)
+    }
+})
+
 client.on(Events.InteractionCreate, async interaction =>{
     if (!interaction.isChatInputCommand){ return }
 
@@ -63,6 +78,7 @@ client.on(Events.InteractionCreate, async interaction =>{
     }
 
     try{
+        interaction.player = player
         await command.execute(interaction)
         log(interaction.user.globalName, command.data.name)
     }
@@ -75,7 +91,7 @@ client.on(Events.InteractionCreate, async interaction =>{
 client.once(Events.ClientReady, c =>{
     console.log(`Logged in as: ${c.user.tag}`)
     c.user.setStatus("idle")
-    // c.user.setUsername("ESIX, destroyer of balls")
+    //c.user.setUsername("ESIX >w<")
     c.user.setActivity("with 𝒀𝑶𝑼𝑹 balls. Yeah, that's right!")
 })
 
