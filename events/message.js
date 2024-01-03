@@ -20,9 +20,9 @@ const a_m_i_n = "547459595300503552"
 module.exports = {
 	name: Events.MessageCreate,
 	async execute(interaction) {
-        let mouseNumRand = Math.floor(Math.random()*200)
-        let furryNumRand = Math.floor(Math.random()*100)
-        let recycleNumRand = Math.floor(Math.random()*100)
+        let mouseNumRand = Math.floor(Math.random()*1000)
+        let furryNumRand = Math.floor(Math.random()*1000)
+        let recycleNumRand = Math.floor(Math.random()*1000)
         // Ryan Mouse
 		if (interaction.author.id == spaghettiOs && mouseNumRand == 2 ){
             const file = path.join(mouseRealFolder, choose(realImages))

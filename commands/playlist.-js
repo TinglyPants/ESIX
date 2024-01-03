@@ -1,0 +1,19 @@
+Ideas:
+store playlists as "youtube prompts" in a json file, so playlists are globally stored.
+to load a playlist, you have two options:
+    /playlist play shuffle playlistname:[NAME]
+    /playlist play noshuffle playlistname:[NAME]
+this will replace the current globally stored queue with either a randomly ordered list of songs, or just the list of songs.
+
+to create a playlist, you run /playlist create playlistname:[NAME]
+remember to check if that playlist already exists, and tell the user if one does.
+
+to add to a playlist, you run /playlist add playlistname:[NAME] prompt:[propmt]
+remember to check if that playlist exists, and tell the user if it doesnt
+
+to remove from a playlist, you run /playlist remove playlistname:[NAME] prompt:[prompt]
+remember to check if that playlist exists, and tell the user if it doesnt
+remember to check if that prompt exists, and tell the user if it doesnt
+
+to view a playlist, you run /playlist view playlistname:[NAME]
+remember to check if that playlist exists, and tell the user if it doesnt
