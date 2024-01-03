@@ -54,18 +54,9 @@ const rest = new REST().setToken(token);
 
 express_init()
 
-const player = createAudioPlayer()
+global.players = new Map()
+global.queues = new Map()
 
-global.queue = []
-
-player.on(AudioPlayerStatus.Idle, () => {
-    console.log("Idle!")
-    if (global.queue[0]){
-        console.log("Something is in the queue! playing it now.")
-        player.play(global.queue[0])
-        global.queue = global.queue.slice(1)
-    }
-})
 
 client.on(Events.InteractionCreate, async interaction =>{
     if (!interaction.isChatInputCommand){ return }
@@ -78,7 +69,6 @@ client.on(Events.InteractionCreate, async interaction =>{
     }
 
     try{
-        interaction.player = player
         await command.execute(interaction)
         log(interaction.user.globalName, command.data.name)
     }
@@ -108,6 +98,10 @@ client.on(Events.MessageCreate, c => {
             } catch {}
         }
     }
+})
+
+client.on("error", ()=>{
+    console.log("There was some kind of error.")
 })
 
 const eventsPath = path.join(__dirname, 'events');

@@ -25,22 +25,26 @@ module.exports = {
             guildId: interaction.guild.id,
             adapterCreator: interaction.guild.voiceAdapterCreator,
         })
+        
+        if (!global.players.get(interaction.guild.id)){ // If there isnt a player available for this server
+            // make one
+            global.players.set(interaction.guild.id, createAudioPlayer())
+            console.log("Creating a player!")
+        }
 
-        connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
-            try {
-                await Promise.race([
-                    entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
-                    entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
-                ]);
-                // Seems to be reconnecting to a new channel - ignore disconnect
-            } catch (error) {
-                // Seems to be a real disconnect which SHOULDN'T be recovered from
-                connection.destroy();
-            }
-        });
+        if (!global.queues.get(interaction.guild.id)){ // If there isnt a queue available for this server
+            // make one
+            global.queues.set(interaction.guild.id, [])
+            console.log("Creating a queue!")
+        }
 
-        const player = interaction.player
+        // Local copy of player and queue
+        const player = global.players.get(interaction.guild.id)
+        const queue = global.queues.get(interaction.guild.id)
+
         connection.subscribe(player)
+
+        // Get results for query
 
         let yt_info = await play.search(interaction.options.getString('query'), {
             limit: 1
@@ -50,13 +54,34 @@ module.exports = {
         let resource = createAudioResource(stream.stream, {
             inputType: stream.type
         })
-        
-        global.queue.push(resource)
 
+        // Add that to the local queue
+        queue.push(resource)
+        // Update globally stored queue
+        global.queues.set(interaction.guild.id, queue)
+
+        // Play it if needed
         if (player._state.status === 'idle'){
-            player.play(global.queue[0])
-            global.queue = global.queue.slice(1)
+            // Get globally stored queue
+            let queue = global.queues.get(interaction.guild.id)
+            player.play(queue[0])
+            // Update globally stored queue, removing first item.
+            global.queues.set(interaction.guild.id, queue.slice(1))
         }
+
+        // Add event listener to local player for idle state
+        player.on(AudioPlayerStatus.Idle, () => {
+            // Get globally stored queue
+            let queue = global.queues.get(interaction.guild.id)
+            if (queue[0] && queue[0].started === false){
+                player.play(queue[0])
+                // Update globally stored queue, removing first item.
+                global.queues.set(interaction.guild.id, queue.slice(1))
+            }
+        })
+
+        // Update globally sotred player with event listener
+        global.players.set(interaction.guild.id, player)
 
         await interaction.reply(`Added: "${yt_info[0].title}" by "${yt_info[0].channel}" to the queue.`)
     }
