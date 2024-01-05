@@ -5,6 +5,11 @@ module.exports = {
     .setName("skip")
     .setDescription('Skips the current song.'),
     async execute(interaction){
+        if (!interaction.member.voice.channel){
+            await interaction.reply("You need to be in a voice channel!")
+            return
+        }
+        
         if (!global.players.get(interaction.guild.id)){ // If there isnt a player available for this server
             await interaction.reply("No active audio player available. Use '/play' to create one.")
             return

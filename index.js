@@ -1,16 +1,14 @@
 const fs = require("node:fs")
 const path = require("node:path")
-const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials } = require("discord.js")
+const { Client, Events, Collection, InteractionCollector, REST, Routes, Partials, Intents} = require("discord.js")
 const { createAudioPlayer, AudioPlayerStatus } = require('@discordjs/voice')
 const { token, clientId} = require("./config.json")
 const { log } = require("./log.js")
 const { express_init } = require('./express_handler.js')
-const express = require("express")
-const { error } = require("node:console")
 
 const client = new Client({ 
     intents: ["Guilds", "GuildVoiceStates", "GuildMessages", "GuildMembers", "MessageContent", "GuildMessageReactions", "DirectMessages"], 
-    partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, 'CHANNEL']})
+    partials: [Partials.All]})
 
 client.commands = new Collection()
 
@@ -41,12 +39,18 @@ const rest = new REST().setToken(token);
         const data = await rest.put(
             Routes.applicationCommands(clientId),
             { body: commands },
-        );
+        )
 
-        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+        // Test Guild Commands
+        // await rest.put(
+		// 	Routes.applicationGuildCommands(clientId, '832357497524060170'),
+		// 	{ body: commands },
+		// )
+
+        console.log(`Successfully reloaded ${data.length} application (/) commands.`)
     } catch (error) {
         // And of course, make sure you catch and log any errors!
-        console.error(error);
+        console.error(error)
     }
 })();
 
