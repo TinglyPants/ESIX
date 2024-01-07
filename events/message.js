@@ -1,9 +1,10 @@
 const { Events } = require('discord.js')
 const { choose } = require('../utils.js')
-const path = require("node:path")
+const fs = require('fs')
+const https = require('https')
+const path = require('path')
 const mouseRealFolder = path.join(__dirname, '../photos/mouse_real')
 const mouseComputerFolder = path.join(__dirname, '../photos/mouse_computer')
-const fs = require('fs')
 const axios = require("axios")
 const { esix_key, esix_name } = require('../config.json')
 
@@ -48,6 +49,55 @@ module.exports = {
         // Ryan mouse
         if (interaction.author.id == spaghettiOs){
             await interaction.react("🐭")
+        }
+
+
+        if (interaction.author.id == tinglyPants){
+            let content = interaction.content
+            if (content == 'test SECRETPASSKEYOOOOOOOOOOOOOOOOOOOOOOOOOOOOTHIS IS SO YOU DONT do IT bY AccIdEnt'){ // Secure password
+                var fetchID = '1193345322567614564' //Start ID 
+                let contentIndex = 0
+                let channelID = '955845807553282128'
+                let clientRef = global.clientRefTemp
+                let channel = await clientRef.channels.fetch(channelID)
+                for (let i = 0; i < 100; i++){
+                    let numberOfMessages = 100
+                    let messages = await channel.messages.fetch({ limit: numberOfMessages, before: fetchID })
+                    for (let j = 0; j < numberOfMessages; j++) {
+                        let message = messages.at(j)
+                        if (message.attachments.size > 0){
+                            message.attachments.each( a => {
+                                let userName = message.author.globalName
+                                let contentType = a.contentType
+
+                                console.log(a.name)
+                                https.get(a.attachment, (res) => {
+                                    try{
+                                        let folderName = path.join('D:/Videos/HUMOUR', userName, contentType)
+                                        if (!fs.existsSync(folderName)){
+                                            fs.mkdirSync(folderName, { recursive: true })
+                                        }
+                                        let fileName = path.join(folderName, contentIndex.toString() + "__" + a.name)
+                                        let fileStream = fs.createWriteStream(fileName)
+                                        res.pipe(fileStream)
+                                    }
+                                    catch {
+                                        let folderName = path.join('D:/Videos/HUMOUR/_UNKNOWN')
+                                        if (!fs.existsSync(folderName)){
+                                            fs.mkdirSync(folderName, { recursive: true })
+                                        }
+                                        let fileName = path.join(folderName, contentIndex.toString() + "__" + a.name)
+                                        let fileStream = fs.createWriteStream(fileName)
+                                        res.pipe(fileStream)
+                                    }
+                                    contentIndex++
+                                })
+                            })
+                        }
+                        fetchID = message.id
+                    }
+                }
+            }
         }
 	},
 };

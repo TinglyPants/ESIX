@@ -22,7 +22,7 @@ function express_init() {
     // Config.json reading
     const rawConfig = fs.readFileSync(__dirname + "/config.json")
     const parsedConfig = JSON.parse(rawConfig)
-    console.log(parsedConfig)
+    //console.log(parsedConfig)
 
     app.use(cookieParser())
     app.use(lock)

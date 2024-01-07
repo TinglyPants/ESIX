@@ -42,10 +42,10 @@ const rest = new REST().setToken(token);
         )
 
         // Test Guild Commands
-        // await rest.put(
-		// 	Routes.applicationGuildCommands(clientId, '832357497524060170'),
-		// 	{ body: commands },
-		// )
+        await rest.put(
+			Routes.applicationGuildCommands(clientId, '832357497524060170'),
+			{ body: commands },
+		)
 
         console.log(`Successfully reloaded ${data.length} application (/) commands.`)
     } catch (error) {
@@ -60,6 +60,7 @@ express_init()
 
 global.players = new Map()
 global.queues = new Map()
+global.clientRefTemp = client
 
 
 client.on(Events.InteractionCreate, async interaction =>{
@@ -87,21 +88,6 @@ client.once(Events.ClientReady, c =>{
     c.user.setStatus("idle")
     //c.user.setUsername("ESIX >w<")
     c.user.setActivity("with 𝒀𝑶𝑼𝑹 balls. Yeah, that's right!")
-})
-
-client.on(Events.MessageCreate, c => {
-    if (!c.guildId){
-        //DM
-        console.log(`User: ${c.author.username} sent: ${c.content}`)
-        if (c.author.username == "tinglypants"){
-            try {
-                let content = c.content.split(";")
-                let userToDM = content[0]
-                let contentToSend = content[1]
-                client.users.send(userToDM, contentToSend);
-            } catch {}
-        }
-    }
 })
 
 client.on("error", ()=>{

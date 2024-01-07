@@ -57,15 +57,21 @@ module.exports = {
                 let queue = global.queues.get(interaction.guild.id)
                 if (queue[0]){
                     player.play(queue[0])
-                    await interaction.channel.send({ embeds: [new EmbedBuilder()
-                        .setColor(0xc31e78)
-                        .setTitle("Now playing")
-                        .addFields({
-                            name: queue[0].songAuthor,
-                            value: queue[0].songTitle
+                    try{
+                        await interaction.channel.send({ embeds: 
+                            [
+                                new EmbedBuilder()
+                                .setColor(0xc31e78)
+                                .setTitle("Now playing")
+                                .addFields({
+                                    name: queue[0].songAuthor,
+                                    value: queue[0].songTitle
+                                })
+                                .setImage(queue[0].songThumbnail)
+                            ]
                         })
-                        .setImage(queue[0].songThumbnail)
-                    ]})
+                    } 
+                    catch {console.log("Unable to send message for some reason. Maybe its that 'interaction expires after 15 minutes' thing??")}
                     // Update globally stored queue, removing first item.
                     global.queues.set(interaction.guild.id, queue.slice(1))
                 }
