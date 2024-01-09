@@ -144,6 +144,6 @@ module.exports = {
             .setImage(resource.songThumbnail)
         }
 
-        await interaction.reply({ embeds: [responseEmbed]})
+        await interaction.reply({ embeds: [responseEmbed] })
     }
 }

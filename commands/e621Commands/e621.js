@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { e621_responses } = require('./responses.json')
-const { choose } = require('../utils.js')
+const { e621_responses } = require('../responses.json')
+const { choose } = require('../../utils.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
