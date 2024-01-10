@@ -1,39 +1,52 @@
-const chalk = require("chalk")
+const chalk = require('chalk')
 const clientID = process.env.CLIENT_ID
 const token = process.env.TOKEN
-const { Routes, REST } = require("discord.js")
-const rest = new REST().setToken(token);
-const developmentServerID = "1131949379813638216"
+const { Routes, REST } = require('discord.js')
+const rest = new REST().setToken(token)
+const developmentServerID = '1131949379813638216'
 
-function choose(array){
+function choose(array) {
     let index = Math.floor(Math.random() * array.length)
     return array[index]
 }
 
-function loadCommands(){}
+function loadCommands() {}
 
-function showError(err){
-    console.log(chalk.bgRedBright("---------------------------------------------------------------"))
+function showError(err) {
+    console.log(
+        chalk.bgRedBright(
+            '---------------------------------------------------------------',
+        ),
+    )
     console.dir(err)
-    console.log(chalk.bgRedBright("---------------------------------------------------------------"))
+    console.log(
+        chalk.bgRedBright(
+            '---------------------------------------------------------------',
+        ),
+    )
 }
 
-async function putCommandsGuild(commands){
-    console.log(chalk.green(`Started refreshing ${commands.length} application (/) guild commands.`))
+async function putCommandsGuild(commands) {
+    console.log(
+        chalk.green(
+            `Started refreshing ${commands.length} application (/) guild commands.`,
+        ),
+    )
     await rest.put(
         Routes.applicationGuildCommands(clientID, developmentServerID),
-        { body: commands }
+        { body: commands },
     )
-    console.log(chalk.bold(chalk.greenBright("Success!")))
+    console.log(chalk.bold(chalk.greenBright('Success!')))
 }
 
-async function putCommandsGlobal(commands){
-    console.log(chalk.green(`Started refreshing ${commands.length} application (/) commands.`))
-    await rest.put(
-        Routes.applicationCommands(clientID),
-        { body: commands }
+async function putCommandsGlobal(commands) {
+    console.log(
+        chalk.green(
+            `Started refreshing ${commands.length} application (/) commands.`,
+        ),
     )
-    console.log(chalk.bold(chalk.greenBright("Success!")))
+    await rest.put(Routes.applicationCommands(clientID), { body: commands })
+    console.log(chalk.bold(chalk.greenBright('Success!')))
 }
 
 module.exports = {
@@ -41,5 +54,5 @@ module.exports = {
     putCommandsGlobal,
     putCommandsGuild,
     loadCommands,
-    showError
+    showError,
 }
