@@ -1,0 +1,9 @@
+node_modules
+photos
+responses.json
+logs
+.env
+.gitignore
+package-lock.json
+package.json
+README.md
