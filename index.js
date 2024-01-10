@@ -14,6 +14,8 @@ const titleESIX = figlet.textSync('e621', { font: 'Doh' }).trimEnd()
 const welcomeESIX = figlet.textSync('industries', { font: 'Univers' })
 console.log(chalk.blue(titleESIX) + '\n' + chalk.yellow(welcomeESIX))
 
+const updateTableMode = process.argv.includes('-updateTable')
+
 const client = new Client({
     intents: [
         'Guilds',
@@ -48,7 +50,7 @@ function getFiles(folder) {
                 commands.push(command.data.toJSON())
             } else {
                 console.log(
-                    `[WARNING] The command at: ${fullPath} is missing exports.`,
+                    `[WARNING] The command at: ${fullPath} is missing exports.`
                 )
             }
         }
@@ -56,6 +58,14 @@ function getFiles(folder) {
 }
 
 getFiles(path.join(__dirname, 'commands'))
+
+if (updateTableMode) {
+    for (let i = 0; i < commands.length; i++) {
+        let name = commands[i].name
+        let description = commands[i].description
+        console.log(`| ${name} | ${description} |`)
+    }
+}
 
 const devMode = process.argv.includes('-dev')
 

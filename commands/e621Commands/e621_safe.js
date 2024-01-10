@@ -7,7 +7,7 @@ const { choose } = require('../../utils.js')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('e621_safe')
-        .setDescription('A safe image from the e621 API.'),
+        .setDescription('Sends a safe e621 image'),
     async execute(interaction) {
         try {
             // Safe rating, random order, limit of 10.
@@ -27,14 +27,14 @@ module.exports = {
                         'User-Agent':
                             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
                     },
-                },
+                }
             )
             let post = choose(response.data.posts).id
             await interaction.reply(`https://e621.net/posts/${post}`)
         } catch (e) {
             console.log(e)
             await interaction.reply(
-                'Something went wrong. Try again in a few seconds.',
+                'Something went wrong. Try again in a few seconds.'
             )
         }
     },

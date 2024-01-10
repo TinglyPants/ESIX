@@ -4,7 +4,7 @@ const { EmbedBuilder } = require('@discordjs/builders')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('stop')
-        .setDescription('Stops the current audio player and clears the queue.'),
+        .setDescription('Stops the current track and clears the queue'),
     async execute(interaction) {
         if (!interaction.member.voice.channel) {
             await interaction.reply({
@@ -13,7 +13,7 @@ module.exports = {
                         .setColor(0xc31e78)
                         .setTitle('Unable to execute command!')
                         .setDescription(
-                            'You must be in a voice channel to use this command.',
+                            'You must be in a voice channel to use this command.'
                         ),
                 ],
             })
@@ -28,7 +28,7 @@ module.exports = {
                         .setColor(0xc31e78)
                         .setTitle('Unable to execute command!')
                         .setDescription(
-                            "No active audio player available. Use '/play' to create one.",
+                            "No active audio player available. Use '/play' to create one."
                         ),
                 ],
             })
@@ -43,7 +43,7 @@ module.exports = {
                         .setColor(0xc31e78)
                         .setTitle('Unable to execute command!')
                         .setDescription(
-                            "No active queue available. Use '/play' to create one.",
+                            "No active queue available. Use '/play' to create one."
                         ),
                 ],
             })

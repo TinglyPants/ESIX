@@ -8,9 +8,7 @@ const { choose } = require('../utils.js')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('decide')
-        .setDescription(
-            'It is time to decide. My decision is final, and not a random number.',
-        ),
+        .setDescription('Makes a yes or no decision for you'),
     async execute(interaction) {
         let decide = Math.floor(Math.random() * 2)
         if (decide == 1) {

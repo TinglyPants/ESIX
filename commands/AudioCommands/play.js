@@ -11,7 +11,7 @@ const { EmbedBuilder } = require('@discordjs/builders')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('play')
-        .setDescription('Plays music???')
+        .setDescription('Plays a track')
 
         .addSubcommand((subcommand) =>
             subcommand
@@ -21,8 +21,8 @@ module.exports = {
                     option
                         .setName('url')
                         .setDescription('URL for YouTube.')
-                        .setRequired(true),
-                ),
+                        .setRequired(true)
+                )
         )
 
         .addSubcommand((subcommand) =>
@@ -33,8 +33,8 @@ module.exports = {
                     option
                         .setName('query')
                         .setDescription('query for YouTube search.')
-                        .setRequired(true),
-                ),
+                        .setRequired(true)
+                )
         ),
 
     async execute(interaction) {
@@ -82,7 +82,7 @@ module.exports = {
                         })
                     } catch {
                         console.log(
-                            "Unable to send message for some reason. Maybe its that 'interaction expires after 15 minutes' thing??",
+                            "Unable to send message for some reason. Maybe its that 'interaction expires after 15 minutes' thing??"
                         )
                     }
                     // Update globally stored queue, removing first item.
@@ -110,14 +110,14 @@ module.exports = {
                 interaction.options.getString('query'),
                 {
                     limit: 1,
-                },
+                }
             )
             yt_info = yt_info[0]
             stream = await play.stream(yt_info.url)
         } else if (interaction.options.getSubcommand() === 'url') {
             stream = await play.stream(interaction.options.getString('url'))
             yt_info = await play.video_info(
-                interaction.options.getString('url'),
+                interaction.options.getString('url')
             )
             yt_info = yt_info.video_details
         }

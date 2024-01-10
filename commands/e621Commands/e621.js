@@ -5,9 +5,7 @@ const { choose } = require('../../utils.js')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('e621')
-        .setDescription(
-            '1 in 10000 chance of a random, unfiltered e621 image. Use at own risk.',
-        ),
+        .setDescription('1 in 1,000,000 chance to send a random e621 image'),
     async execute(interaction) {
         try {
             let postNum = Math.floor(Math.random() * 4_402_916)
@@ -15,7 +13,7 @@ module.exports = {
 
             if (chanceNum == 621) {
                 await interaction.reply(
-                    `Here you go then...\nhttps://e621.net/posts/${postNum}`,
+                    `Here you go then...\nhttps://e621.net/posts/${postNum}`
                 )
             } else {
                 await interaction.reply(choose(e621_responses))
@@ -23,7 +21,7 @@ module.exports = {
         } catch (error) {
             console.log(error)
             await interaction.reply(
-                'Something broke. Maybe its a sign to stop.',
+                'Something broke. Maybe its a sign to stop.'
             )
         }
     },

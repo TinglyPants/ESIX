@@ -4,11 +4,11 @@ const axios = require('axios')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('cat')
-        .setDescription('Will send an image of a "cat"'),
+        .setDescription('Sends an image of a "cat"'),
     async execute(interaction) {
         try {
             const response = await axios.get(
-                'https://api.thecatapi.com/v1/images/search',
+                'https://api.thecatapi.com/v1/images/search'
             )
             console.log(response.data[0].url)
             await interaction.reply(response.data[0].url)

@@ -6,24 +6,24 @@ const { choose } = require('../utils.js')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('recipe')
-        .setDescription('Will send an recipe')
+        .setDescription('Sends a recipe')
         .addStringOption((option) =>
             option
                 .setName('query')
-                .setDescription('Initial Recipe Query (natural language)'),
+                .setDescription('Initial Recipe Query (natural language)')
         ),
     async execute(interaction) {
         const query = interaction.options.getString('query')
         try {
             const response = await axios.get(
-                `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${key}`,
+                `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${key}`
             )
             let choice = choose(response.data.results)
             const recipe = await axios.get(
-                `https://api.spoonacular.com/recipes/${choice.id}/information?apiKey=${key}`,
+                `https://api.spoonacular.com/recipes/${choice.id}/information?apiKey=${key}`
             )
             await interaction.reply(
-                `${choice.title}\n${choice.image}\n${recipe.data.sourceUrl}`,
+                `${choice.title}\n${choice.image}\n${recipe.data.sourceUrl}`
             )
         } catch (e) {
             await interaction.reply(`Could not find a recipe for ${query}`)
