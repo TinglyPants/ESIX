@@ -10,6 +10,7 @@ const { putCommandsGlobal } = require('./utils/setup/putCommandsGlobal')
 const { putCommandsGuild } = require('./utils/setup/putCommandsGuild')
 const { showError } = require('./utils/maintenance/showError')
 const { logCommand } = require('./utils/maintenance/logCommand')
+const { showUpdatedTable } = require('./utils/maintenance/updateTable')
 
 // Welcome user
 const titleMessageESIX = figlet.textSync('e621', { font: 'Doh' }).trimEnd()
@@ -38,11 +39,8 @@ const commands = getCommandFiles(path.join(__dirname, 'commands'), client, []) /
 
 // Log commands to console for updating readme.
 if (updateTableMode) {
-    for (let i = 0; i < commands.length; i++) {
-        let name = commands[i].name
-        let description = commands[i].description
-        console.log(`| ${name} | ${description} |`)
-    }
+    showUpdatedTable(commands)
+    return
 }
 
 const devMode = process.argv.includes('-dev')
@@ -55,6 +53,7 @@ const devMode = process.argv.includes('-dev')
         await putCommandsGuild(commands)
     }
 })()
+
 global.players = new Map()
 global.queues = new Map()
 
