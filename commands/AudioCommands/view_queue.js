@@ -21,7 +21,7 @@ module.exports = {
         }
 
         if (!global.queues.get(interaction.guild.id)) {
-            // If there isnt a queue available for this server
+            // If there isn't a queue available for this server
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()

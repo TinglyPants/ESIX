@@ -1,18 +1,22 @@
 require('dotenv').config()
 const fs = require('node:fs')
 const path = require('node:path')
-const { argv } = require('node:process')
 const { Client, Events, Collection, Partials } = require('discord.js')
 const token = process.env.TOKEN
-const { log } = require('./log.js')
-const { putCommandsGuild, putCommandsGlobal, showError } = require('./utils.js')
 const figlet = require('figlet')
 const chalk = require('chalk')
+const { getCommandFiles } = require('./utils/setup/loadCommands')
+const { putCommandsGlobal } = require('./utils/setup/putCommandsGlobal')
+const { putCommandsGuild } = require('./utils/setup/putCommandsGuild')
+const { showError } = require('./utils/maintenance/showError')
+const { logCommand } = require('./utils/maintenance/logCommand')
 
 // Welcome user
-const titleESIX = figlet.textSync('e621', { font: 'Doh' }).trimEnd()
-const welcomeESIX = figlet.textSync('industries', { font: 'Univers' })
-console.log(chalk.blue(titleESIX) + '\n' + chalk.yellow(welcomeESIX))
+const titleMessageESIX = figlet.textSync('e621', { font: 'Doh' }).trimEnd()
+const welcomeMessageESIX = figlet.textSync('industries', { font: 'Univers' })
+console.log(
+    chalk.blue(titleMessageESIX) + '\n' + chalk.yellow(welcomeMessageESIX)
+)
 
 const updateTableMode = process.argv.includes('-updateTable')
 
@@ -30,35 +34,9 @@ const client = new Client({
 })
 
 client.commands = new Collection()
+const commands = getCommandFiles(path.join(__dirname, 'commands'), client, []) // Empty array is made for recursive function.
 
-const commands = []
-
-function getFiles(folder) {
-    const files = fs.readdirSync(folder)
-
-    for (const filename of files) {
-        const fullPath = path.join(folder, filename)
-        const isDir = fs.statSync(fullPath).isDirectory()
-        const isJS = fullPath.endsWith('.js')
-        if (isDir) {
-            getFiles(fullPath)
-        } else if (isJS) {
-            const command = require(fullPath)
-
-            if ('data' in command && 'execute' in command) {
-                client.commands.set(command.data.name, command)
-                commands.push(command.data.toJSON())
-            } else {
-                console.log(
-                    `[WARNING] The command at: ${fullPath} is missing exports.`
-                )
-            }
-        }
-    }
-}
-
-getFiles(path.join(__dirname, 'commands'))
-
+// Log commands to console for updating readme.
 if (updateTableMode) {
     for (let i = 0; i < commands.length; i++) {
         let name = commands[i].name
@@ -69,16 +47,16 @@ if (updateTableMode) {
 
 const devMode = process.argv.includes('-dev')
 
-if (!devMode) {
-    putCommandsGlobal(commands)
-} else {
-    console.log(chalk.red('[WARNING] You are in developer mode!'))
-    putCommandsGuild(commands)
-}
-
+;(async () => {
+    if (!devMode) {
+        await putCommandsGlobal(commands)
+    } else {
+        console.log(chalk.red('[WARNING] You are in developer mode!'))
+        await putCommandsGuild(commands)
+    }
+})()
 global.players = new Map()
 global.queues = new Map()
-global.clientRefTemp = client
 
 client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand) {
@@ -94,7 +72,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     try {
         await command.execute(interaction)
-        log(interaction.user.globalName, command.data.name)
+        logCommand(interaction.user.globalName, command.data.name)
     } catch (error) {
         showError(error)
         await interaction.reply({
@@ -102,16 +80,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
             ephemeral: true,
         })
     }
-})
-
-client.once(Events.ClientReady, (c) => {
-    console.log(chalk.green(`Logged in as: ${c.user.tag}`))
-    c.user.setStatus('idle')
-    c.user.setActivity("with 𝒀𝑶𝑼𝑹 balls. Yeah, that's right!")
-})
-
-client.on('error', (err) => {
-    showError(err)
 })
 
 const eventsPath = path.join(__dirname, 'events')

@@ -1,5 +1,5 @@
 const { Events, AttachmentBuilder } = require('discord.js')
-const { choose } = require('../utils.js')
+const { chooseRandom } = require('../utils/command/chooseRandom')
 const fs = require('fs')
 const https = require('https')
 const path = require('path')
@@ -28,33 +28,33 @@ module.exports = {
         let recycleNumRand = Math.floor(Math.random() * 1000)
         // Ryan Mouse
         if (interaction.author.id == spaghettiOs && mouseNumRand == 2) {
-            let imgName = choose(realImages)
+            let imgName = chooseRandom(realImages)
             console.log(imgName)
             const fileName = path.join(mouseRealFolder, imgName)
             let file = new AttachmentBuilder(fileName)
             let message = new EmbedBuilder()
                 .setColor(0xc31e78)
                 .setTitle(
-                    '**Thank you for joining the ✨[MOUSE]✨ subscription service 💖🐁💖!**',
+                    '**Thank you for joining the ✨[MOUSE]✨ subscription service 💖🐁💖!**'
                 )
                 .setDescription(
-                    'We are here to ensure you get your *daily* recommended dose of ✨[MOUSE]✨!\n*Here is your* ✨[MOUSE]✨! 🐁🐁🐁 ',
+                    'We are here to ensure you get your *daily* recommended dose of ✨[MOUSE]✨!\n*Here is your* ✨[MOUSE]✨! 🐁🐁🐁 '
                 )
                 .setImage(`attachment://${imgName}`)
             await interaction.reply({ embeds: [message], files: [file] })
             //await interaction.reply({ content: "**Thank you for joining the ✨[MOUSE]✨ subscription service 💖🐁💖!**\nWe are here to ensure you get your *daily* recommended dose of ✨[MOUSE]✨!\n*Here is your* ✨[MOUSE]✨! 🐁🐁🐁 \n", files: [file]} )
         } else if (interaction.author.id == spaghettiOs && mouseNumRand == 1) {
-            let imgName = choose(computerImages)
+            let imgName = chooseRandom(computerImages)
             console.log(imgName)
             const fileName = path.join(mouseComputerFolder, imgName)
             let file = new AttachmentBuilder(fileName)
             let message = new EmbedBuilder()
                 .setColor(0xc31e78)
                 .setTitle(
-                    '**Thank you for joining the ✨[MOUSE]✨ subscription service 💖🖱️💖!**',
+                    '**Thank you for joining the ✨[MOUSE]✨ subscription service 💖🖱️💖!**'
                 )
                 .setDescription(
-                    'We are here to ensure you get your *daily* recommended dose of ✨[MOUSE]✨!\n*Here is your* ✨[MOUSE]✨! 🖱️🖱️🖱️ ',
+                    'We are here to ensure you get your *daily* recommended dose of ✨[MOUSE]✨!\n*Here is your* ✨[MOUSE]✨! 🖱️🖱️🖱️ '
                 )
                 .setImage(`attachment://${imgName}`)
             await interaction.reply({ embeds: [message], files: [file] })
@@ -83,15 +83,15 @@ module.exports = {
                         'User-Agent':
                             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
                     },
-                },
+                }
             )
-            let post = choose(response.data.posts)
+            let post = chooseRandom(response.data.posts)
             let message = new EmbedBuilder()
                 .setColor(0xc31e78)
                 .setTitle('*Dear Mr. Davies*')
                 .setURL(`https://e621.net/posts/${post.id}`)
                 .setDescription(
-                    "Thank you for joining the 😳[Furry Women Lovers' Society]😳.\n💖 **Please remember to give us a ✨[5 STAR]✨ rating!** 💖\n*🥵 Enjoy!~*",
+                    "Thank you for joining the 😳[Furry Women Lovers' Society]😳.\n💖 **Please remember to give us a ✨[5 STAR]✨ rating!** 💖\n*🥵 Enjoy!~*"
                 )
                 .setImage(post.file.url)
             //let message = "*Dear Mr. Davies*,\nThank you for joining the 😳[Furry Women Lovers' Society]😳.\n💖 **Please remember to give us a ✨[5 STAR]✨ rating!** 💖\n*🥵 Enjoy!~*\n\n"
@@ -104,82 +104,6 @@ module.exports = {
         // Ryan mouse
         if (interaction.author.id == spaghettiOs) {
             await interaction.react('🐭')
-        }
-
-        if (interaction.author.id == tinglyPants) {
-            let content = interaction.content
-            if (
-                content ==
-                'test SECRETPASSKEYOOOOOOOOOOOOOOOOOOOOOOOOOOOOTHIS IS SO YOU DONT do IT bY AccIdEnt'
-            ) {
-                // Secure password
-                var fetchID = '1193345322567614564' //Start ID
-                let contentIndex = 0
-                let channelID = '955845807553282128'
-                let clientRef = global.clientRefTemp
-                let channel = await clientRef.channels.fetch(channelID)
-                for (let i = 0; i < 100; i++) {
-                    let numberOfMessages = 100
-                    let messages = await channel.messages.fetch({
-                        limit: numberOfMessages,
-                        before: fetchID,
-                    })
-                    for (let j = 0; j < numberOfMessages; j++) {
-                        let message = messages.at(j)
-                        if (message.attachments.size > 0) {
-                            message.attachments.each((a) => {
-                                let userName = message.author.globalName
-                                let contentType = a.contentType
-
-                                console.log(a.name)
-                                https.get(a.attachment, (res) => {
-                                    try {
-                                        let folderName = path.join(
-                                            'D:/Videos/HUMOUR',
-                                            userName,
-                                            contentType,
-                                        )
-                                        if (!fs.existsSync(folderName)) {
-                                            fs.mkdirSync(folderName, {
-                                                recursive: true,
-                                            })
-                                        }
-                                        let fileName = path.join(
-                                            folderName,
-                                            contentIndex.toString() +
-                                                '__' +
-                                                a.name,
-                                        )
-                                        let fileStream =
-                                            fs.createWriteStream(fileName)
-                                        res.pipe(fileStream)
-                                    } catch {
-                                        let folderName = path.join(
-                                            'D:/Videos/HUMOUR/_UNKNOWN',
-                                        )
-                                        if (!fs.existsSync(folderName)) {
-                                            fs.mkdirSync(folderName, {
-                                                recursive: true,
-                                            })
-                                        }
-                                        let fileName = path.join(
-                                            folderName,
-                                            contentIndex.toString() +
-                                                '__' +
-                                                a.name,
-                                        )
-                                        let fileStream =
-                                            fs.createWriteStream(fileName)
-                                        res.pipe(fileStream)
-                                    }
-                                    contentIndex++
-                                })
-                            })
-                        }
-                        fetchID = message.id
-                    }
-                }
-            }
         }
     },
 }

@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js')
 const esix_key = process.env.ESIX_KEY
 const esix_name = process.env.ESIX_NAME
 const axios = require('axios')
-const { choose } = require('../../utils.js')
+const { chooseRandom } = require('../../utils/command/chooseRandom')
 
 module.exports = {
     data: new SlashCommandBuilder()

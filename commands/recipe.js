@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const axios = require('axios')
 const key = '04e662d46aa7487c9b98762949321982'
-const { choose } = require('../utils.js')
+const { chooseRandom } = require('../utils/command/chooseRandom')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,7 +18,7 @@ module.exports = {
             const response = await axios.get(
                 `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${key}`
             )
-            let choice = choose(response.data.results)
+            let choice = chooseRandom(response.data.results)
             const recipe = await axios.get(
                 `https://api.spoonacular.com/recipes/${choice.id}/information?apiKey=${key}`
             )
