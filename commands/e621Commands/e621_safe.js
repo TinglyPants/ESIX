@@ -29,7 +29,7 @@ module.exports = {
                     },
                 }
             )
-            let post = choose(response.data.posts).id
+            let post = chooseRandom(response.data.posts).id
             await interaction.reply(`https://e621.net/posts/${post}`)
         } catch (e) {
             console.log(e)

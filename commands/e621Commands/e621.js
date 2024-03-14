@@ -16,7 +16,7 @@ module.exports = {
                     `Here you go then...\nhttps://e621.net/posts/${postNum}`
                 )
             } else {
-                await interaction.reply(choose(e621_responses))
+                await interaction.reply(chooseRandom(e621_responses))
             }
         } catch (error) {
             console.log(error)
