@@ -18,6 +18,7 @@ module.exports = {
                 '-comic',
                 '-animated',
                 '-nude',
+                '-nipples',
             ]
             let response = await axios.get(
                 `https://e621.net/posts.json?limit=10&tags=${tags.join('+')}`,
