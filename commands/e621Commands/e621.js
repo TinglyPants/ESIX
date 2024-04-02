@@ -9,14 +9,17 @@ module.exports = {
     async execute(interaction) {
         try {
             let postNum = Math.floor(Math.random() * 4_402_916)
-            let chanceNum = Math.floor(Math.random() * 10000)
+            let chanceNum = Math.floor(Math.random() * 100000)
 
-            if (
-                chanceNum == 621 ||
-                interaction.author.id == '707624825400852491'
-            ) {
+            console.log(interaction.user)
+
+            if (chanceNum == 621) {
                 await interaction.reply(
                     `Here you go then...\nhttps://e621.net/posts/${postNum}`
+                )
+            } else if (interaction.user.id == '547459595300503552') {
+                await interaction.reply(
+                    `OK ${interaction.user.globalName}, I can make an exception just for you then...\nhttps://e621.net/posts/${postNum}`
                 )
             } else {
                 await interaction.reply(chooseRandom(e621_responses))
