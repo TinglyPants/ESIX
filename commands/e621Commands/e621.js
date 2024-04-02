@@ -11,8 +11,6 @@ module.exports = {
             let postNum = Math.floor(Math.random() * 4_402_916)
             let chanceNum = Math.floor(Math.random() * 100000)
 
-            console.log(interaction.user)
-
             if (chanceNum == 621) {
                 await interaction.reply(
                     `Here you go then...\nhttps://e621.net/posts/${postNum}`
