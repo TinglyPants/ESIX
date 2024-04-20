@@ -11,13 +11,17 @@ module.exports = {
         .setDescription('1 in 1,000,000 chance to send a random e621 image'),
     async execute(interaction) {
         try {
-            let chanceNum = Math.floor(Math.random() * 100000)
+            let chanceNum = Math.floor(Math.random() * 1_000_000)
             let tags = [
                 'order:random',
                 'score:>230',
                 '-comic',
                 '-animated',
                 'anthro',
+                '-gore',
+                '-scat',
+                '-watersports',
+                'rating:e',
             ]
             let response = await axios.get(
                 `https://e621.net/posts.json?limit=10&tags=${tags.join('+')}`,
