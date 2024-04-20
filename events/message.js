@@ -106,7 +106,10 @@ module.exports = {
         if (interaction.author.id == spaghettiOs) {
             await interaction.react('🐭')
         }
-        if (joeNumRand == 1) {
+        if (
+            joeNumRand == 1 &&
+            interaction.content.toLowerCase().includes('joe')
+        ) {
             await interaction.reply(
                 chooseRandom([
                     'Joseph Mama',
