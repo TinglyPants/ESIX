@@ -26,6 +26,7 @@ module.exports = {
         let mouseNumRand = Math.floor(Math.random() * 100)
         let furryNumRand = Math.floor(Math.random() * 600)
         let recycleNumRand = Math.floor(Math.random() * 1000)
+        let joeNumRand = Math.floor(Math.random() * 10)
         // Ryan Mouse
         if (interaction.author.id == spaghettiOs && mouseNumRand == 2) {
             let imgName = chooseRandom(realImages)
@@ -104,6 +105,17 @@ module.exports = {
         // Ryan mouse
         if (interaction.author.id == spaghettiOs) {
             await interaction.react('🐭')
+        }
+        if (joeNumRand == 1) {
+            await interaction.reply(
+                chooseRandom([
+                    'Joseph Mama',
+                    'Joe Mama',
+                    'Josephine Matron',
+                    'Josefina Matriarch',
+                    'Joe Mama? My Mama? 😳',
+                ])
+            )
         }
     },
 }
