@@ -33,7 +33,7 @@ module.exports = {
             let post = chooseRandom(response.data.posts).id
             let postLink = `https://e621.net/posts/${post}`
 
-            if (/*chanceNum == 621*/ true) {
+            if (chanceNum == 621) {
                 await interaction.reply(postLink)
             } else if (interaction.user.id == '547459595300503552') {
                 await interaction.reply(
