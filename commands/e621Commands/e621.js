@@ -21,6 +21,7 @@ module.exports = {
                 '-gore',
                 '-scat',
                 '-watersports',
+                '-feral',
                 'rating:e',
             ]
             let response = await axios.get(
